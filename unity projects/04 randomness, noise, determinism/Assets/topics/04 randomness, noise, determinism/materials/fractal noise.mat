@@ -26,7 +26,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _intensity: 0.17
-    - _scale: 24.2
+    - _scale: 50
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

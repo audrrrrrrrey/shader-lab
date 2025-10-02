@@ -61,7 +61,7 @@
                 
                 // try different ways of using time
                 float time = 0;
-                time = _Time.y;
+                time = _Time.x;
                 // time = floor(_Time.z);
                 // time = pow(sin(_Time.y), 8);
 
