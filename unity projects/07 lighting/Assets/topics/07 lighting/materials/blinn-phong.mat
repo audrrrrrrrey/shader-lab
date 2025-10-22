@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: blinn-phong
+  m_Shader: {fileID: 4800000, guid: 07d1963eb7eec4c4bbd37a69a4b3767e, type: 3}
+  m_Parent: {fileID: 2100000, guid: 1ac01d7a186a64accaf0440e8bb54e03, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _bloom: 29.6
+    - _bloomAA: 0.5
+    - _bloomThickness: -0.481
+    - _diffuseLightSteps: 10
+    - _gloss: 0
+    - _noiseDisp: 0
+    - _noiseScale: 50
+    - _specularPower: 0
+    m_Colors:
+    - _ambientColor: {r: 1, g: 0.28773582, b: 0.43019125, a: 1}
+    - _bloomColor: {r: 1, g: 0.25380412, b: 0.17647058, a: 1}
+    - _surfaceColor: {r: 1, g: 0.4709373, b: 0.19339621, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
