@@ -1,0 +1,82 @@
+﻿Shader "shader lab/week 9/house" {
+    Properties {
+        [NoScaleOffset] _IBL ("IBL 2D map", 2D) = "black" {}
+        
+        // smoothness of surface - sharpness of reflection
+        _gloss ("gloss", Range(0,1)) = 1
+
+        // reflectivity of surface - brightness of reflection
+        _reflectivity ("reflectivity", Range(0,1)) = 0.5
+
+        // fresnel power
+        _fresnelPower ("fresnel power", Range(0,1)) = 1
+
+        //level of detail
+        _mipSteps ("mip steps", Range(0,8)) = 1
+    }
+    SubShader {
+        Tags { "RenderPipeline" = "UniversalPipeline" }
+        Pass {
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+            CBUFFER_START(UnityPerMaterial)
+            float _gloss;
+            float _reflectivity;
+            float _fresnelPower;
+            int _mipSteps;
+            CBUFFER_END
+
+            TEXTURE2D(_IBL);
+            SAMPLER(sampler_IBL);
+            
+            struct MeshData {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
+            };
+
+            struct Interpolators {
+                float4 vertex : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
+            };
+
+            Interpolators vert (MeshData v) {
+                Interpolators o;
+                o.uv = v.uv;
+
+                o.normal = TransformObjectToWorldNormal(v.normal);
+
+                o.vertex = TransformObjectToHClip(v.vertex);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                
+                return o;
+            }
+
+            float4 frag (Interpolators i) : SV_Target {
+                float3 color = 0;
+                float3 normal = normalize(i.normal);
+
+                float3 viewDirection = normalize(GetCameraPositionWS() - i.worldPos);
+                float3 viewReflection = reflect(-viewDirection, normal);
+                
+                float mip = (1 - _gloss) * _mipSteps;
+                float3 indirectSpecular = SAMPLE_TEXTURE2D_LOD(_IBL, sampler_IBL, viewReflection, mip) * _reflectivity;
+
+                float fresnel = 1-saturate(dot(viewDirection, normal));
+                fresnel = pow(fresnel, _fresnelPower);
+                
+                color = indirectSpecular * fresnel;
+
+                // color = fresnel.rrr;
+                return float4(color, 1.0);
+            }
+            ENDHLSL
+        }
+    }
+}

@@ -84,7 +84,6 @@
                 float elevation = i.worldPos.y;
                 float3 color = lerp(_lowColor, _midColor, smoothstep(_lowElevation, _midElevation, elevation));
                 color = lerp(color, _highColor, smoothstep(_midElevation, _highElevation, elevation));
-
                 return float4(color, 1.0);
             }
             ENDHLSL
